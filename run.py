@@ -14,7 +14,7 @@ assert_env_vars('DB_URL', 'MONGO_URL')
 def main():
     parser = argparse.ArgumentParser(description='')
     cmd_list = (
-        'file-sync',
+        'file_sync',
         'info'
     )
 
@@ -23,7 +23,7 @@ def main():
     args = parser.parse_args()
     cmd = args.cmd
 
-    if cmd == 'file-sync':
+    if cmd == 'file_sync':
         from lander.file_sync import main
         main()
 

@@ -57,7 +57,6 @@ def worker():
         item.contents = contents
         item.updated = row['updatedAt']
         session.add(item)
-
         session.flush()
 
         # logger.info('{}/{}: ok'.format(row['username'], row['_id']))
