@@ -41,10 +41,12 @@ def worker():
         url = '{}{}'.format(row['profile']['apps'][APP_ORIGIN], PUBLISHED_FILE)
 
         try:
-            contents = requests.get(url).text
+            resp = requests.get(url)
         except BaseException as ex:
             logger.info('{}/{}: could not get file'.format(row['username'], row['_id']))
             continue
+
+        contents = resp.text if resp.status_code == 200 else '""'
 
         # More than 1 user with same file can be exists due to https://github.com/blockstack/radiks/issues/61
         checks = session.query(FileCache).filter(FileCache.url == url).all()
