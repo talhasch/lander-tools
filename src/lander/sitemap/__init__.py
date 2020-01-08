@@ -19,29 +19,28 @@ def get_users() -> List:
 
 
 def worker():
-    users = get_users()
     url_list = []
+    users = get_users()
 
     for row in users:
-
         # ignore non-username accounts
         if row['username'] is None:
             continue
 
+        # app definition not found
         if not ('apps' in row['profile'] and APP_ORIGIN in row['profile']['apps']):
-            logger.info('{}/{}: app definition not found'.format(row['username'], row['_id']))
             continue
 
-        url = '{}{}'.format(row['profile']['apps'][APP_ORIGIN], PUBLISHED_FILE)
+        file_url = '{}{}'.format(row['profile']['apps'][APP_ORIGIN], PUBLISHED_FILE)
 
-        sql = "SELECT updated, contents FROM file_cache WHERE url='{}' LIMIT 1".format(url)
-        file = pg_db.execute(sql).fetchone()
+        sql = "SELECT updated, contents FROM file_cache WHERE url='{}' LIMIT 1".format(file_url)
+        file_rec = pg_db.execute(sql).fetchone()
 
-        if file is None:
+        if file_rec is None:
             continue
 
         try:
-            data = json.loads(file.contents)
+            data = json.loads(file_rec.contents)
             assert data['name']
         except BaseException:
             continue
@@ -49,7 +48,8 @@ def worker():
         page_url = '{}/{}'.format(APP_ORIGIN, row['username'])
 
         # convert from js timestamp
-        last_mod = datetime.fromtimestamp(file.updated / 1000).isoformat()
+        ts = file_rec.updated / 1000
+        last_mod = datetime.fromtimestamp(ts).isoformat()
 
         url_list.append({'url': page_url, 'last_mod': last_mod})
 
