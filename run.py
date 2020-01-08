@@ -16,6 +16,7 @@ def main():
     cmd_list = (
         'file_sync',
         'sitemap',
+        'showcase',
         'info'
     )
 
@@ -30,6 +31,10 @@ def main():
 
     if cmd == 'sitemap':
         from lander.sitemap import main
+        main()
+
+    if cmd == 'showcase':
+        from lander.showcase import main
         main()
 
     if cmd == 'info':
