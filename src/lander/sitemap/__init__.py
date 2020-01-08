@@ -8,7 +8,7 @@ from lander.db import mongo_db, pg_db
 from lander.logger import create_logger
 from lander.util import assert_env_vars
 
-assert_env_vars('OUTPUT_PATH')
+assert_env_vars('SITEMAP_OUTPUT_PATH')
 
 logger = create_logger('sitemap')
 
@@ -59,11 +59,12 @@ def worker():
     doc_temp = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{}</urlset>'
     output = doc_temp.format(str_urls)
 
-    with open(os.environ.get('OUTPUT_PATH'), 'w') as f:
+    save_path = os.environ.get('SITEMAP_OUTPUT_PATH')
+    with open(save_path, 'w') as f:
         f.write(output)
         f.close()
 
-    logger.info('Sitemap created')
+    logger.info('Sitemap created to {}'.format(save_path))
 
 
 def main():
