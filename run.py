@@ -15,6 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description='')
     cmd_list = (
         'file_sync',
+        'sitemap',
         'info'
     )
 
@@ -25,6 +26,10 @@ def main():
 
     if cmd == 'file_sync':
         from lander.file_sync import main
+        main()
+
+    if cmd == 'sitemap':
+        from lander.sitemap import main
         main()
 
     if cmd == 'info':
