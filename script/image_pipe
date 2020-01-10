@@ -1,0 +1,34 @@
+#!/bin/bash
+
+PWD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+BASE_DIR="$PWD_DIR/../"
+SRC_DIR="$PWD_DIR/../src"
+VENVDIR="$PWD_DIR/../venv"
+
+source "${BASE_DIR}/env.sh"
+
+cd $VENVDIR
+source bin/activate
+
+export PYTHONPATH=$SRC_DIR
+
+cd "$SRC_DIR/lander/image_pipe"
+
+NAME="image_pipe"
+SOCKFILE="$BASE_DIR/image_pipe.sock"
+ERROR_LOG_FILE="$BASE_DIR/image_pipe.log"
+
+# Create the run directory if it doesn't exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+NUM_WORKERS=4
+TIMEOUT=10
+
+# Start your unicorn
+exec gunicorn app:app --chdir '../../'  -b 127.0.0.1:5002 \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --error-logfile $ERROR_LOG_FILE \
+  --bind=unix:$SOCKFILE

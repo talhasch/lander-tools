@@ -6,5 +6,7 @@ venv
 *.log
 *.log.*
 
+*.sock
+
 env.sh
 
