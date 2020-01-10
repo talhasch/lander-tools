@@ -55,10 +55,6 @@ def __flask_setup():
             abort(404)
             return
 
-        if not url.startswith('https://gaia.blockstack.org/hub/'):
-            abort(404)
-            return
-
         if rv is None:
             resp = requests.get(url)
             rv = resp.content
@@ -67,9 +63,10 @@ def __flask_setup():
                 im_io = BytesIO()
                 im = Image.open(BytesIO(rv))
                 im.thumbnail((width, height))
-                im.save(im_io, 'JPEG', quality=96)
+                im.save(im_io, im.format, quality=96)
                 im_io.seek(0)
                 rv = im_io.read()
+                print(im.format)
 
             cache.set(cache_key, rv)
 
