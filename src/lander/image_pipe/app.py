@@ -56,7 +56,17 @@ def __flask_setup():
             return
 
         if rv is None:
-            resp = requests.get(url)
+
+            try:
+                resp = requests.get(url)
+            except BaseException:
+                abort(404)
+                return
+
+            if resp.status_code != 200:
+                abort(404)
+                return
+
             rv = resp.content
 
             if size:
@@ -66,7 +76,6 @@ def __flask_setup():
                 im.save(im_io, im.format, quality=96)
                 im_io.seek(0)
                 rv = im_io.read()
-                print(im.format)
 
             cache.set(cache_key, rv)
 
