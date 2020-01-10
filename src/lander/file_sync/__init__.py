@@ -1,3 +1,4 @@
+import os
 import time
 from typing import List
 
@@ -7,6 +8,11 @@ from lander.constants import *
 from lander.db import mongo_db, pg_session_maker
 from lander.logger import create_logger
 from lander.model import FileCache, State
+from lander.util import assert_env_vars
+
+assert_env_vars('APP_ORIGIN')
+
+APP_ORIGIN = os.environ.get('APP_ORIGIN')
 
 logger = create_logger('file-sync')
 

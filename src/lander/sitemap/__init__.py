@@ -8,7 +8,9 @@ from lander.db import mongo_db, pg_db
 from lander.logger import create_logger
 from lander.util import assert_env_vars
 
-assert_env_vars('SITEMAP_OUTPUT_PATH')
+assert_env_vars('SITEMAP_OUTPUT_PATH', 'APP_ORIGIN')
+
+APP_ORIGIN = os.environ.get('APP_ORIGIN')
 
 logger = create_logger('sitemap')
 

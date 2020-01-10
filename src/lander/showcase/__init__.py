@@ -1,13 +1,15 @@
 import json
-from datetime import datetime
-from typing import List
-import os
 import logging
+import os
+from typing import List
 
 from lander.constants import *
 from lander.db import mongo_db, pg_db
-from lander.logger import create_logger
 from lander.util import assert_env_vars
+
+assert_env_vars('APP_ORIGIN')
+
+APP_ORIGIN = os.environ.get('APP_ORIGIN')
 
 logging.basicConfig(level=logging.INFO)
 
