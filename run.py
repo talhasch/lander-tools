@@ -17,6 +17,7 @@ def main():
         'file_sync',
         'sitemap',
         'showcase',
+        'image_pipe_srv',
         'info'
     )
 
@@ -35,6 +36,10 @@ def main():
 
     if cmd == 'showcase':
         from lander.showcase import main
+        main()
+
+    if cmd == 'image_pipe_srv':
+        from lander.image_pipe.app import main
         main()
 
     if cmd == 'info':
