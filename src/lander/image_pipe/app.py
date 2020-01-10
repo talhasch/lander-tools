@@ -76,7 +76,8 @@ def __flask_setup():
         mime_type = magic.from_buffer(rv, mime=True)
 
         response.headers.set('Content-Type', mime_type)
-        response.headers.set("can't-be-evil", 'true')
+        response.headers.add('Last-Modified', 'Fri, 10 Jan 2020 00:00:10 GMT')
+        response.headers.add('Expires', 'Fri, 10 Jan 2030 00:00:10 GMT')
 
         return response
 
